@@ -29,15 +29,15 @@
                  class="form-control"
                  name="email"
                  placeholder="Your email"
-                 [(ngModel)]="model.email"
-                 #email="ngModel"
-                 [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                 [(ngModel)]="model.mail"
+                 #mail="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && mail.invalid }"
                  required email/>
           <!-- input validation group -->
-          <div *ngIf="f.submitted && email.invalid" class="invalid-input">
+          <div *ngIf="f.submitted && mail.invalid" class="invalid-input">
             <!-- individual validation errors -->
-            <div *ngIf="email.errors?.required">Field is required</div>
-            <div *ngIf="email.errors?.email">Field is not a valid email</div>
+            <div *ngIf="mail.errors?.required">Field is required</div>
+            <div *ngIf="mail.errors?.email">Field is not a valid email</div>
           </div>
         </div>
 

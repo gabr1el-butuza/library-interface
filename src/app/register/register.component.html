@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-3"></div>
+    <div class="col-md-6">
+      <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && register()" novalidate class="register-form">
+        <!--    Success msg    -->
+        <div class="row" *ngIf="showMsg">
+          <div class="col-xs-12">
+            <p class="alert alert-success">
+              <strong>Registration Success!</strong>
+            </p>
+          </div>
+        </div>
+        <!-- UserName -->
+        <div class="form-group">
+          <label for="uname">Username</label>
+          <input type="text"
+                 id="uname"
+                 class="form-control"
+                 name="uname"
+                 placeholder="Your username"
+                 [(ngModel)]="model.username"
+                 #username="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && username.invalid }"
+                 required minlength="5"/>
+          <!-- input validation group -->
+          <div *ngIf="f.submitted && username.invalid" class="invalid-input">
+            <!-- individual validation errors -->
+            <div *ngIf="username.errors?.required">Field is required</div>
+            <div *ngIf="username.errors?.minlength">Username is required (minimum 5 characters)</div>
+          </div>
+        </div>
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password"
+                 id="password"
+                 class="form-control"
+                 name="password"
+                 placeholder="Your password"
+                 [(ngModel)]="model.password"
+                 #password="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+                 required password/>
+          <!-- input validation group -->
+          <div *ngIf="f.submitted && password.invalid" class="invalid-input">
+            <!-- individual validation errors -->
+            <div *ngIf="password.errors?.required">Field is required</div>
+            <div *ngIf="password.errors?.password">Field is not a valid password</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-info pull-left">
+          <i class="fa fa-user"></i>
+          <span> Register</span>
+        </button>
+      </form>
+    </div>
+    <div class="offset-3"></div>
+  </div>
+</div>
+

@@ -1,7 +1,8 @@
 export interface Book {
   id:string;
-  name:string;
-  description:string;
-  notebookId:string;
+  title:string;
+  text:string;
+  categoryId:string;
+  bookPath:string;
   lastModifiedOn:string;
 }

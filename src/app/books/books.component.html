@@ -1,3 +1,67 @@
-<p>
-  books works!
-</p>
+<div class="container">
+  <!-- Book menu -->
+  <div class="row" style="margin-top:12px;">
+    <div class="col-md-8">
+      <input type="text"
+             [(ngModel)]="searchText"
+             class="form-control"
+             style="width: 100%;"
+             placeholder="Search books...">
+    </div>
+    <div class="col-md-4">
+      <button type="buton"
+              (click)="createCategory()"
+              class="btn btn-info pull-right"
+              style="margin-left:12px;"><i class="fa fa-plus"></i> New category
+      </button>
+      <button type="button"
+              (click)="createBook(selectedCategory.id)"
+              [disabled]="selectedCategory == null"
+              class="btn btn-warning pull-right"
+              style="margin-left:12px;"><i class="fa fa-plus"></i> New book
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Book content -->
+  <div class="row" style="margin-top: 28px;">
+    <!-- Categories Menu -->
+    <div class="col-md-3">
+      <br>
+      <div class="list-group list-group-flush">
+        <a (click)="selectedCategory = null"  (click)="getAllBooks()"class="list-group-item list-group-item-action">
+          <i class="fa fa-book"></i>&nbsp;All
+        </a>
+        <!-- Category List -->
+        <a *ngFor="let category of categories" (click)="selectCategory(category)" class="list-group-item list-group-item-action">
+          <i class="fa fa-book"></i>&nbsp;
+          <input [(ngModel)]="category.name" (change)="updateCategory(category)" type="text" class="input-label " style="width: 80%"/>
+          <a (click)="deleteCategory(category)" class="pull-right text-danger">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </a>
+      </div>
+    </div>
+
+    <!-- Books Panel -->
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Message if there are no books -->
+          <h2 *ngIf="selectedCategory != null">{{selectedCategory.name}}</h2>
+          <h2 *ngIf="selectedCategory == null">All books</h2>
+          <p *ngIf="this.books.length === 0"> There are no books in this notebook :( </p>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Book list -->
+        <app-book *ngFor="let b of books | bookTextFilter:searchText"
+                  [book]="b"
+                  (bookUpdated)="updateBook($event)"
+                  (bookDeleted)="deleteBook($event)">
+        </app-book>
+      </div>
+    </div>
+  </div>
+</div>

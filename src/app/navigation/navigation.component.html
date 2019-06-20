@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">
     <i class="fa fa-book text-warning"></i>
-    <span class="text-warning"> Digital Library</span>
+    <span class="text-warning">Digital Library</span>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
           aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,26 +11,103 @@
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/books">Books </a>
+        <a class="nav-link" routerLink="/books">Books</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/feedback">FeedBack </a>
+        <a class="nav-link" routerLink="/feedback">FeedBack</a>
       </li>
     </ul>
   </div>
 
+
+<!--  test dropdown  -->
+ <!--  Dropdown button  -->
   <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fa fa-user"></i>
-          Profile
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-          <a class="dropdown-item" href="#">My account</a>
-          <a class="dropdown-item" href="#">Log out</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/register">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" (click)="openModal(template)">Login</a>
       </li>
     </ul>
   </div>
 </nav>
+<!-- Modal for Register new user-->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Login</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-10">
+          <form  name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate class="login-form">
+            <!--    Success msg    -->
+            <div class="row" *ngIf="showMsgOk">
+              <div class="col-xs-12">
+                <p class="alert alert-success">
+                  <strong>Login Success!</strong>
+                </p>
+              </div>
+            </div>
+            <div class="row" *ngIf="showMsgErr">
+              <div class="col-xs-12">
+                <p class="alert alert-success">
+                  <strong>Login error!</strong>
+                </p>
+              </div>
+            </div>
+            <!-- UserName -->
+            <div class="form-group">
+              <label for="uname">Username</label>
+              <input type="text"
+                     id="uname"
+                     class="form-control"
+                     name="uname"
+                     placeholder="Your username"
+                [(ngModel)]="model.username"
+                #username="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && username.invalid }"
+                     required/>
+              <!-- input validation group -->
+              <div *ngIf="f.submitted && username.invalid" class="invalid-input">
+                <!-- individual validation errors -->
+                <div *ngIf="username.errors?.required">Field is required</div>
+              </div>
+            </div>
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password"
+                     id="password"
+                     class="form-control"
+                     name="password"
+                     placeholder="Your password"
+                [(ngModel)]="model.password"
+                #password="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+                     required password/>
+              <!-- input validation group -->
+              <div *ngIf="f.submitted && password.invalid" class="invalid-input">
+                <!-- individual validation errors -->
+                <div *ngIf="password.errors?.required">Field is required</div>
+                <div *ngIf="password.errors?.password">Field is not a valid password</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-info pull-left">
+              <i class="fa fa-user"></i>
+              <span>Login</span>
+            </button>
+          </form>
+        </div>
+        <div class="offset-5"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
