@@ -56,10 +56,11 @@
       </div>
       <div class="row">
         <!-- Book list -->
-        <app-book *ngFor="let b of books | bookTextFilter:searchText"
+        <app-book *ngFor="let b of books| bookTextFilter:searchText"
                   [book]="b"
                   (bookUpdated)="updateBook($event)"
-                  (bookDeleted)="deleteBook($event)">
+                  (bookDeleted)="deleteBook($event)"
+        >
         </app-book>
       </div>
     </div>

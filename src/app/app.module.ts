@@ -13,12 +13,12 @@ import { BookComponent } from './books/book/book.component';
 import { BookTextFilterPipe } from './shared/book-text-filter.pipe';
 import { RegisterComponent } from './register/register.component';
 
+
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {NgbButtonsModule} from "@ng-bootstrap/ng-bootstrap";
-// Imported syncfusion PdfViewer component from PdfViewer package
-import {
-  PdfViewerComponent
-} from '@syncfusion/ej2-angular-pdfviewer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
+
 
 const appRoutes : Routes = [
   {
@@ -53,19 +53,17 @@ const appRoutes : Routes = [
     FeedbackComponent,
     BookComponent,
     BookTextFilterPipe,
-    RegisterComponent,
-    // Registering EJ2 PDF Viewer component
-    PdfViewerComponent
-
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes, {enableTracing: true}),
+    RouterModule.forRoot(appRoutes, {enableTracing: false}),
     ReactiveFormsModule,
     ModalModule.forRoot(),
-    NgbButtonsModule
+    NgbButtonsModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

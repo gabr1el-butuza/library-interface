@@ -13,6 +13,7 @@ import {FeedbackViewModel} from "../feedback/feedback.component";
 export class NavigationComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[] = [];
+  isLoggedin: boolean = false;
 
   model: loginModel = {
     username: '',
@@ -39,26 +40,43 @@ export class NavigationComponent implements OnInit {
       }
     );
   }
+
   showMsgOk: boolean = false;
   showMsgErr: boolean = false;
+
   login(): void {
     this.apiService.login(this.model.username, this.model.password).subscribe(
       res => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('loggedUserId', res.userId);
-        console.log(this.model)
         this.showMsgOk = true;
         console.log("Successful login!")
         //location.reload();
+        this.isLoggedin = true;
       },
       err => {
         this.showMsgErr = true;
         console.log("Username or password incorrect!")
-        alert("An error has occurred while login");
       }
     );
   }
 
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('accessToken');
+    this.isLoggedin = false;
+  }
+
+
+  isLoggedIn() {
+    if (localStorage.getItem('accessToken') == null) {
+      this.isLoggedin = false;
+      return this.isLoggedin;
+    }
+    else {
+      return true;
+    }
+  }
 
 }
 

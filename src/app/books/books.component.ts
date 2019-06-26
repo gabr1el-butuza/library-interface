@@ -86,8 +86,8 @@ export class BooksComponent implements OnInit {
     if(confirm("Are you sure you want to delete this category?")){
       this.apiService.deleteCategory(category.id).subscribe(
         res=>{
-          let indesOfNotebook = this.categories.indexOf(category);
-          this.categories.splice(indesOfNotebook, 1);
+          let indexOfNotebook = this.categories.indexOf(category);
+          this.categories.splice(indexOfNotebook, 1);
         },
         error1 => {
           alert("Could not delete category!");
@@ -143,4 +143,5 @@ export class BooksComponent implements OnInit {
       }
     );
   }
+
 }

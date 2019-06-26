@@ -19,7 +19,11 @@
               (change)="updateBook()"
     ></textarea>
     <div>
-      <a href="#" class="btn btn-primary" data-toggle="modal" (click)="openModal(template)">Go to the book</a>
+      <a href="#" class="btn btn-primary" data-toggle="modal" (click)="openModal(template)">Go
+        to the book</a>
+      <span class="btn btn-default btn-file" style="cursor: pointer">
+         <i class="fa fa-paperclip fa-2x"></i> <input type="file" (change)="onFileSelected($event)">
+      </span>
     </div>
     <strong class="text-info" style="font-size: small">{{book.lastModifiedOn | date}}</strong>
   </div>
@@ -28,17 +32,24 @@
 
 <!-- Modal for view a book-->
 <ng-template #template>
-  <div class="modal-header" >
-    <h4 class="modal-title pull-left">{{book.title}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <!--  modal_body  -->
-    <div>
-      <ejs-pdfviewer id="pdfViewer" [serviceUrl]='service' [documentPath]='document' style="width:100%;min-height:600px;display:block"></ejs-pdfviewer>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{book.title}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pdf-viewer
+          [src]=pdfSrc
+          [render-text]="true">
+        </pdf-viewer>
+      </div>
     </div>
-    <!--  modal_body  -->
   </div>
 </ng-template>
+<!--</ng-template>-->
+
+<!-- test modal lg -->
+

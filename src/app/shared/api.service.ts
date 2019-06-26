@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {FeedbackViewModel} from "../feedback/feedback.component";
 import {Book} from "../books/model/book";
@@ -26,6 +26,8 @@ export class ApiService {
   private LOGIN_URL = `${this.BASE_URL}/auth/login`;
   private REGISTER_URL = `${this.BASE_URL}/user`;
   private ALL_USERS_URL = `${this.BASE_URL}/users`;
+  private UPLOAD_URL = `${this.BASE_URL}/file`;
+  private DOWNLOAD_URL = `${this.BASE_URL}/files/`;
 
   constructor(private http: HttpClient) {
 
@@ -36,43 +38,74 @@ export class ApiService {
   }
 
   postFeedback(feedback: FeedbackViewModel): Observable<any> {
-    return this.http.post(this.SEND_FEEDBACK_URL, feedback);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.post(this.SEND_FEEDBACK_URL, feedback, options);
   }
 
   postCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(this.SAVE_CATEGORY_URL, category);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.post<Category>(this.SAVE_CATEGORY_URL, category, options);
   }
 
   updateCategory(id: string, category: Category): Observable<any> {
-    return this.http.put(this.UPDATE_CATEGORY_URL + id, category);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.put(this.UPDATE_CATEGORY_URL + id, category, options);
   }
 
   updateBook(id: string, book: Book): Observable<any> {
-    return this.http.put(this.UPDATE_BOOK_URL + id, book);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.put(this.UPDATE_BOOK_URL + id, book, options);
   }
 
   deleteCategory(id: string): Observable<any> {
-    return this.http.delete(this.DELETE_CATEGORY_URL + id);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.delete(this.DELETE_CATEGORY_URL + id, options);
   }
 
-  getAllBooks(): Observable<Book[]>{
-    return  this.http.get<Book[]>(this.ALL_BOOKS_URL);
+  getAllBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.ALL_BOOKS_URL);
   }
 
-  getBooksByCategory(categoryId: string): Observable<Book[]>{
+  getBooksByCategory(categoryId: string): Observable<Book[]> {
     return this.http.get<Book[]>(this.BOOKS_BY_CATEGORY_URL + categoryId);
   }
 
-  saveBook(book: Book):Observable<Book>{
+  saveBook(book: Book): Observable<Book> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('accessToken') });
-    let options = { headers: headers };
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
     return this.http.post<Book>(this.SAVE_BOOK_URL, book, options);
   }
 
-  deleteBook(id: string):Observable<any>{
-    return this.http.delete(this.DELETE_BOOK_URL + id);
+  deleteBook(id: string): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.delete(this.DELETE_BOOK_URL + id, options);
   }
 
   createUser(user: RegisterViewModel): Observable<any> {
@@ -80,14 +113,28 @@ export class ApiService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(this.LOGIN_URL, {"username": username, "password":password});
+    return this.http.post(this.LOGIN_URL, {"username": username, "password": password});
   }
 
-  getAllUsers(): Observable<User[]>{
-  return  this.http.get<User[]>(this.ALL_USERS_URL);
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.ALL_USERS_URL);
   }
 
-  getPDF(bookPath):string {
-    return '/assets/books/' + bookPath;
+  postFile(fileToUpload: File): Observable<any> {
+    const fd = new FormData();
+    fd.append('file', fileToUpload, fileToUpload.name);
+    console.log(fd.get(fileToUpload.name));
+
+    let headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+
+    return this.http.post(this.UPLOAD_URL, fd, options)
+
+  }
+
+  getFileSystem(filename: string): Observable<any> {
+    return this.http.get(this.DOWNLOAD_URL + filename);
   }
 }

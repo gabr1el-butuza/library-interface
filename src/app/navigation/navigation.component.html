@@ -25,19 +25,29 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/register">Register</a>
+        <a *ngIf="!isLoggedIn()" class="nav-link" routerLink="/register">Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" (click)="openModal(template)">Login</a>
+        <a *ngIf="!isLoggedIn()" class="nav-link" style="cursor: pointer" data-toggle="modal" (click)="openModal(template)">Login</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isLoggedIn()" class="navbar-text" style="color: gray" >Logged in as: {{model.username}}
+          &nbsp;&nbsp;
+        </a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isLoggedIn()" class="nav-link" (click)="logout()" style="cursor: pointer">
+          <i class="fa fa-sign-out fa-2x"></i>
+        </a>
       </li>
     </ul>
   </div>
 </nav>
-<!-- Modal for Register new user-->
+<!-- Modal for Login user-->
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Login</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button  type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -57,8 +67,8 @@
             </div>
             <div class="row" *ngIf="showMsgErr">
               <div class="col-xs-12">
-                <p class="alert alert-success">
-                  <strong>Login error!</strong>
+                <p class="alert alert-danger">
+                  <strong>Username or password incorrect!</strong>
                 </p>
               </div>
             </div>
