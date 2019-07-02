@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ApiService} from "../shared/api.service";
 import {Category} from "./model/category";
 import {Book} from "./model/book";
@@ -15,12 +15,15 @@ export class BooksComponent implements OnInit {
   selectedCategory: Category;
   searchText: string;
 
+  @Input() isLoggedin;
+
   constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
     this.getAllCategories();
     this.getAllBooks();
+    console.log(this.isLoggedin);
   }
 
   public getAllCategories(){
@@ -67,7 +70,7 @@ export class BooksComponent implements OnInit {
       res=>{
       },
       error1 => {
-        alert("An error has occurred while update category!");
+        alert("If you want to update category, please login!");
       }
     );
   }

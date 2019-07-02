@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {ApiService} from "../shared/api.service";
 import {User} from "../books/model/user";
 import {Book} from "../books/model/book";
 import {FeedbackViewModel} from "../feedback/feedback.component";
+import {BookComponent} from "../books/book/book.component";
 
 @Component({
   selector: 'app-navigation',
@@ -14,16 +15,20 @@ export class NavigationComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[] = [];
   isLoggedin: boolean = false;
+  userDisplayName = '';
 
   model: loginModel = {
+    id: '',
     username: '',
     password: ''
   };
-
+  @ViewChild(BookComponent) child;
   constructor(private modalService: BsModalService, private apiService: ApiService) { }
 
   ngOnInit() {
-    this.getAllUsers()
+    if(this.userDisplayName === ''){
+      this.userDisplayName = localStorage.getItem('loggedUsername');
+    }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -48,9 +53,9 @@ export class NavigationComponent implements OnInit {
     this.apiService.login(this.model.username, this.model.password).subscribe(
       res => {
         localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('loggedUserId', res.userId);
+        localStorage.setItem('loggedUsername', this.model.username);
         this.showMsgOk = true;
-        console.log("Successful login!")
+        this.userDisplayName = localStorage.getItem('loggedUsername');;
         //location.reload();
         this.isLoggedin = true;
       },
@@ -63,8 +68,12 @@ export class NavigationComponent implements OnInit {
 
   logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('accessToken');
+    // localStorage.removeItem('accessToken');
+    // localStorage.removeItem('loggedUsername');
+    localStorage.clear();
     this.isLoggedin = false;
+    this.showMsgOk = false;
+    this.showMsgErr = false;
   }
 
 
@@ -81,6 +90,7 @@ export class NavigationComponent implements OnInit {
 }
 
 export interface loginModel {
+  id: string;
   username: string;
   password: string;
 }

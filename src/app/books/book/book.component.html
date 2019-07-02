@@ -6,7 +6,7 @@
              [(ngModel)]="book.title"
              (change)="updateBook()"
              class="input-label-lg"
-             maxlength="18" style="width: 80%"
+             maxlength="22" style="width: 80%"
       />
       <a (click)="deleteBook()" class="pull-right text-danger">
         <i class="fa fa-trash-o"></i>
@@ -19,8 +19,10 @@
               (change)="updateBook()"
     ></textarea>
     <div>
-      <a href="#" class="btn btn-primary" data-toggle="modal" (click)="openModal(template)">Go
-        to the book</a>
+      <button href="#" class="btn btn-primary" data-toggle="modal"
+         [disabled]="isLoggedin == false"
+         (click)="openModal(template)">Go
+        to the book</button>
       <span class="btn btn-default btn-file" style="cursor: pointer">
          <i class="fa fa-paperclip fa-2x"></i> <input type="file" (change)="onFileSelected($event)">
       </span>
@@ -30,7 +32,7 @@
 </div>
 
 
-<!-- Modal for view a book-->
+<!-- Modal for read a book-->
 <ng-template #template>
   <div class="modal-dialog">
     <div class="modal-content">
@@ -42,7 +44,7 @@
       </div>
       <div class="modal-body">
         <pdf-viewer
-          [src]=pdfSrc
+          [src]=pdfSrc.concat(book.bookPath)
           [render-text]="true">
         </pdf-viewer>
       </div>

@@ -11,6 +11,7 @@ import {Book} from "../books/model/book";
 })
 export class RegisterComponent implements OnInit {
   model: RegisterViewModel = {
+    id: '',
     username: '',
     password: '',
   };
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit {
 }
 
 export interface RegisterViewModel {
+  id: string;
   username: string;
   password: string;
 }

@@ -28,6 +28,7 @@ export class ApiService {
   private ALL_USERS_URL = `${this.BASE_URL}/users`;
   private UPLOAD_URL = `${this.BASE_URL}/file`;
   private DOWNLOAD_URL = `${this.BASE_URL}/files/`;
+  private GET_USERNAME_URL = `${this.BASE_URL}/user/`;
 
   constructor(private http: HttpClient) {
 
@@ -135,6 +136,10 @@ export class ApiService {
   }
 
   getFileSystem(filename: string): Observable<any> {
-    return this.http.get(this.DOWNLOAD_URL + filename);
+    let headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    let options = {headers: headers};
+    return this.http.get(this.DOWNLOAD_URL + filename, options);
   }
 }

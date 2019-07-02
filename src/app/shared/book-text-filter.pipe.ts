@@ -11,7 +11,10 @@ export class BookTextFilterPipe implements PipeTransform {
       return books;
     }
     if(text){
-      return books.filter( n=> n.title.search(new RegExp(text, 'i')) !== -1);
+      return books.filter( n=> {
+        return n.title.search(new RegExp(text, 'i')) !== -1 ||
+          n.text.search(new RegExp(text, 'i')) !== -1
+      });
     }
     return books;
   }

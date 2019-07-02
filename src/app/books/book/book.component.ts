@@ -14,14 +14,14 @@ import {Category} from "../model/category";
 export class BookComponent implements OnInit {
   fileToUpload: File = null;
   modalRef: BsModalRef;
-  pdfSrc: string = 'http://localhost:9005/library-service/files/sc01.pdf';
+  pdfSrc: string = 'http://localhost:9005/library-service/files/';
   selectedBook: Book;
   fileSystemName: string;
 
   @Input() book: Book;
   @Output() bookUpdated: EventEmitter<Book> = new EventEmitter<Book>();
   @Output() bookDeleted: EventEmitter<Book> = new EventEmitter<Book>();
-
+  @Input() isLoggedin;
 
   constructor(private modalService: BsModalService, private apiService: ApiService) {
 
@@ -29,6 +29,7 @@ export class BookComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.isLoggedin);
   }
 
   openModal(template: TemplateRef<any>) {
@@ -51,7 +52,6 @@ export class BookComponent implements OnInit {
 
   uploadFileToActivity(fileToUpload: File) {
     this.selectedBook = this.book;
-    console.log(this.selectedBook);
     this.apiService.postFile(fileToUpload).subscribe(
       data => {
         this.book.bookPath = fileToUpload.name;
@@ -63,7 +63,7 @@ export class BookComponent implements OnInit {
     });
   }
 
-  downloadFileSystem() {
+  getFileSystem() {
     this.apiService.getFileSystem(this.fileSystemName)
       .subscribe(response => {
         console.log("Download file success!!!");

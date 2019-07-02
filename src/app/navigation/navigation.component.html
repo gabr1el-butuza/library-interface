@@ -31,7 +31,7 @@
         <a *ngIf="!isLoggedIn()" class="nav-link" style="cursor: pointer" data-toggle="modal" (click)="openModal(template)">Login</a>
       </li>
       <li class="nav-item">
-        <a *ngIf="isLoggedIn()" class="navbar-text" style="color: gray" >Logged in as: {{model.username}}
+        <a *ngIf="isLoggedIn()" class="navbar-text" style="color: gray" >Logged in as: {{userDisplayName}}
           &nbsp;&nbsp;
         </a>
       </li>
@@ -47,7 +47,7 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Login</h4>
-    <button  type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button  type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide(); f.resetForm()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -56,7 +56,7 @@
       <div class="row">
         <div class="offset-3"></div>
         <div class="col-md-10">
-          <form  name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate class="login-form">
+          <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate class="login-form">
             <!--    Success msg    -->
             <div class="row" *ngIf="showMsgOk">
               <div class="col-xs-12">
